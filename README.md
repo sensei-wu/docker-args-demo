@@ -2,19 +2,20 @@
 
 ## Theory
 
-ENTRYPOINT and CMD are used to customize the startup behavior of a container.
+Both ENTRYPOINT and CMD are commands which are used for customizing the startup behavior of a container.
 
-Both can be used interchangeably, but there are subtle differences between them.
+Both commands can be used interchangeably to serve similar purposes, but nevertheless 
+there are subtle differences between them.
 
 ENTRYPOINT is the right way to specify a startup command for a container.
 
 CMD is meant to be used for passing arguments to the startup command specified by ENTRYPOINT.
 
-On top of that, each of these commands could be executed either in "shell" mode or "exec" mode.
+On top of that, both commands could be executed either in _shell_ mode or _exec_ mode.
 
-In shell mode, the command is executed within a shell whereas in exec mode, it is executed directly.
+In shell mode, the command is executed from within a shell whereas in exec mode, it is executed directly.
 
-In the following sections, we will see how these differences play out in practice using the classic 
+In the following sections, I'd like to demonstrate how these differences play out in practice by using the classic 
 [fortune](https://linux.die.net/man/6/fortune) program which prints out a random quote each time it is invoked.
 
 We install fortune inside an alpine linux base image and then invoke the program using `CMD` or `ENTRYPOINT`.
@@ -23,10 +24,12 @@ container while running the container.
 
 #### v1: without a CMD or ENTRYPOINT
 
+If you fail to specify at-least one of CMD or ENTRYPOINT, your containers won't execute anything.
 ```
 FROM alpine
 RUN apk --update add fortune
 ```
+
 `$ docker image build -t docker-args-demo:v1 .`
 
 ```
